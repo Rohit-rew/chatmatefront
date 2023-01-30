@@ -1,4 +1,9 @@
-*{
-    margin : 0;
-    padding: 0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.background-gradient{
+    background: #528b06;
+    background: -webkit-linear-gradient(0deg, #57b400 0%, #1b4901 100%);
+    background: linear-gradient(0deg, #0ead08 0%, #fffb05 100%);
 }
