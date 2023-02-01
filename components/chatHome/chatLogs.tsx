@@ -1,12 +1,32 @@
 import React from "react";
+import ChatCard from "./chatCard";
+
 
 export default function ChatLogs() {
+  const chatLogs = [
+    {
+      name: "mohit kumar",
+      lastMessage: "Hello how are you",
+    },
+    {
+      name: "mohit kumar",
+      lastMessage: "Hello how are you",
+    },
+    {
+      name: "mohit kumar",
+      lastMessage: "Hello how are you",
+    },
+    {
+      name: "mohit kumar",
+      lastMessage: "Hello how are you",
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-2 p-2 pt-16">
-      <div className="contact w-full h-20 bg-gray-200 rounded">chat</div>
-      <div className="contact w-full h-20 bg-gray-200 rounded">chat</div>
-      <div className="contact w-full h-20 bg-gray-200 rounded">chat</div>
-      <div className="contact w-full h-20 bg-gray-200 rounded">chat</div>
+    <div className="flex flex-col pt-16">
+        {chatLogs.map(chat=>{
+            return <ChatCard chat={chat}/>
+        })}
     </div>
   );
 }

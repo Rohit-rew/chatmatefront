@@ -1,11 +1,57 @@
 import React from "react";
+import Image from "next/image";
 
 //font awesome
-import { faSearch, faAdd, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faAdd, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+//components
+import Contact from "./contact";
+import AddContactForm from "./addContactForm";
+
+//axiso
+import axios from "axios";
+import { useCookies } from "react-cookie";
+
+//types
+type contact = {
+  name: string;
+  email: string;
+  id: string;
+};
 
 export default function ContactLogs() {
   const [isAddContactModal, setAddContactModal] = React.useState(false);
+  const [contacts, setContacts] = React.useState<contact[]>([]);
+  const [cookies, setCookies] = useCookies(["chatmate"]);
+
+  React.useEffect(() => {
+    if (!cookies.chatmate) return;
+    const fetchContacts = async () => {
+      try {
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
+          { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
+        );
+        setContacts(data.data.contacts);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchContacts();
+  });
+
+  const deleteContact = async (id: string) => {
+    try {
+      const data = await axios.delete(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/contact/${id}`,
+        { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error); //show error to user
+    }
+  };
 
   return (
     <>
@@ -18,22 +64,15 @@ export default function ContactLogs() {
           />
         </div>
 
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
-        <div className="contact w-full h-10 bg-gray-200 rounded">contact</div>
+        {contacts.map((contact) => {
+          return (
+            <Contact
+              key={contact.id}
+              contact={contact}
+              deleteContact={deleteContact}
+            />
+          );
+        })}
       </div>
 
       {isAddContactModal && <AddContactModal closeModal={setAddContactModal} />}
@@ -41,42 +80,42 @@ export default function ContactLogs() {
   );
 }
 
+//types
 type propTypes = {
   closeModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function AddContactModal({ closeModal }: propTypes) {
+  const [errorMsg, setErrorMsg] = React.useState("");
+  const [cookies, setCookies] = useCookies(["chatmate"]);
+
+
+  const createContact = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    const name = e.currentTarget.username.value;
+    const email = e.currentTarget.email.value;
+
+    if (name && email) {
+      try {
+        const data = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/contact` , {name , email} , {headers : {Authorization : `Bearer ${cookies.chatmate}`}} )
+        closeModal(false)
+      } catch (error) {
+        console.log(error) //show error to user
+      }
+    } else {
+      setErrorMsg("both fields are necessary");
+    }
+  };
+
   return (
     <div className="absolute w-full max-w-xl h-screen bg-black bg-opacity-80 top-0 p-4 flex justify-center items-center ">
-      <form className="w-full h-60 bg-white shadow-2xl border rounded relative overscroll-none flex flex-col justify-between p-3">
-        <FontAwesomeIcon
-          onClick={() => closeModal(false)}
-          className="absolute right-2 top-2 text-2xl "
-          icon={faClose}
-        />
-
-        <div className="flex flex-col ">
-          <label className="text-xl">Name</label>
-          <input
-            id="email"
-            className="border border-gray-400 rounded h-10 px-2"
-            type={"email"}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-xl">Email</label>
-          <input
-            id="email"
-            className="border border-gray-400 rounded h-10 px-2"
-            type={"email"}
-          />
-        </div>
-
-        <button className="bg-green-500 rounded text-white py-2">
-          Add Contact
-        </button>
-      </form>
+      <AddContactForm
+        errorMsg={errorMsg}
+        createContact={createContact}
+        closeModal={closeModal}
+      />
     </div>
   );
 }
