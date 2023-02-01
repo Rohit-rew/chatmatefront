@@ -37,7 +37,7 @@ export default function Signup() {
         setconfirmPassErrorMsg("passwords do not match");
         return;  
       }
-      // make register api call here
+      // api call to backend
       try {
         const data = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/signup` , {name , email , password , confirmPassword})
         setIsregistered(true)
