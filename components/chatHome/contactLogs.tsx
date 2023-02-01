@@ -89,7 +89,6 @@ export function AddContactModal({ closeModal }: propTypes) {
   const [errorMsg, setErrorMsg] = React.useState("");
   const [cookies, setCookies] = useCookies(["chatmate"]);
 
-
   const createContact = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg("");
@@ -99,10 +98,14 @@ export function AddContactModal({ closeModal }: propTypes) {
 
     if (name && email) {
       try {
-        const data = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/contact` , {name , email} , {headers : {Authorization : `Bearer ${cookies.chatmate}`}} )
-        closeModal(false)
+        const data = await axios.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
+          { name, email },
+          { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
+        );
+        closeModal(false);
       } catch (error) {
-        console.log(error) //show error to user
+        console.log(error); //show error to user
       }
     } else {
       setErrorMsg("both fields are necessary");
