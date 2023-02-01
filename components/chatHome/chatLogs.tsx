@@ -21,10 +21,15 @@ export default function ChatLogs() {
         {
           msg: "hellow how are you",
           sentBy: "asd32qwed23e",
+          sentTo: "cldlc8l620000nmiyfme1dc8j",
+        },
+        {
+          msg: "I am good man",
+          sentBy: "cldlc8l620000nmiyfme1dc8j",
           sentTo: "423434rerf34r",
         },
       ],
-    },
+    }, 
   ];
 
   return (

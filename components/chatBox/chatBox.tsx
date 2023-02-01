@@ -20,7 +20,7 @@ export default function ChatBox() {
           return (
             <div
               className={` p-2 rounded max-w-xs shadow  ${
-                msg.sentTo == currentUser?.id
+                msg.sentBy == currentUser?.id
                   ? "bg-blue-100 self-end"
                   : "bg-gray-100 self-start"
               }`}
