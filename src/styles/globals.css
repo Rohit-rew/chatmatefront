@@ -3,7 +3,18 @@
 @tailwind utilities;
 
 .background-gradient{
-    background: #528b06;
-    background: -webkit-linear-gradient(0deg, #57b400 0%, #1b4901 100%);
-    background: linear-gradient(0deg, #0ead08 0%, #fffb05 100%);
+    background: #d7d7d7;
+    background: -webkit-linear-gradient(0deg, #d7d7d7 0%, #eeeeee 100%);
+    background: linear-gradient(0deg, #d7d7d7 0%, #eeeeee 100%);
+}
+
+.chat-background{
+   background:
+      radial-gradient(35.36% 35.36% at 100% 25%,#0000 66%,rgba(0, 255, 149, 0.11) 68% 70%,#0000 72%) 36px 36px/calc(2*36px) calc(2*36px),
+      radial-gradient(35.36% 35.36% at 0    75%,#0000 66%,rgba(0, 255, 149, 0.11) 68% 70%,#0000 72%) 36px 36px/calc(2*36px) calc(2*36px),
+      radial-gradient(35.36% 35.36% at 100% 25%,#0000 66%,rgba(0, 255, 149, 0.11) 68% 70%,#0000 72%) 0 0/calc(2*36px) calc(2*36px),
+      radial-gradient(35.36% 35.36% at 0    75%,#0000 66%,rgba(0, 255, 149, 0.11) 68% 70%,#0000 72%) 0 0/calc(2*36px) calc(2*36px),
+      repeating-conic-gradient(#f8f8f8 0 25%,#0000 0 50%) 0 0/calc(2*36px) calc(2*36px),
+      radial-gradient(#0000 66%,rgba(0, 255, 149, 0.11) 68% 70%,#0000 72%) 0 calc(36px/2)/36px 36px
+      #f8f8f8;
 }

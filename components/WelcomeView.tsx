@@ -14,7 +14,7 @@ export default function WelcomeView() {
 
         <div className='flex flex-col gap-10 max-w-md w-full'>
             <button onClick={()=>Router.push("/accounts/login")} className='border border-black rounded-2xl shadow py-4 text-black text-xl bg-white font-semibold hover:border-red-500'>Login</button>
-            <button onClick={()=>Router.push("")} className='border border-black rounded-2xl shadow py-4 text-white text-xl bg-black font-semibold hover:border-red-500'>SignUp</button>
+            <button onClick={()=>Router.push("/accounts/signup")} className='border border-black rounded-2xl shadow py-4 text-white text-xl bg-black font-semibold hover:border-red-500'>SignUp</button>
         </div>
 
     </div>

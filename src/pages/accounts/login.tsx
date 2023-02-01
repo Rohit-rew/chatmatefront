@@ -2,11 +2,15 @@ import LoginForm from "components/LoginForm";
 import Link from "next/link";
 import React from "react";
 
+//axios
+import axios, { AxiosError } from "axios";
+import Router from "next/router";
+
 export default function Login() {
   const [emailError, setEmailError] = React.useState<null | String>(null);
   const [passError, setPassError] = React.useState<null | String>(null);
 
-  const loginUser = (e : React.FormEvent<HTMLFormElement>) => {
+  const loginUser = async (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // remove any preset error
@@ -21,8 +25,19 @@ export default function Login() {
       console.log(email, password);
 
       // make Login API call here
-
-
+      try {
+        const data = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/login` , {email , password})
+        const token = data.data.token 
+        console.log(token) // set this token to cookies or storage
+        Router.push("/chat")
+      } catch (error) {
+        if(error instanceof AxiosError){
+          setEmailError("Invalid credentials")
+          setPassError("Invalid credentials")
+        }else{
+          setEmailError("something went wrong")
+        }
+      }
 
     } else if (!email && !password) {// frontend validation
       setEmailError("Please enter email");

@@ -5,6 +5,9 @@ import SignUpForm from "components/SignUpForm";
 import Link from "next/link";
 import SuccessSignUpMessage from "components/SuccessSignUpMessage";
 
+//axios
+import axios, { AxiosError } from "axios";
+
 export default function Signup() {
   const [nameErrorMsg, setNameErrorMsg] = React.useState<String | null>(null);
   const [emailErrorMsg, setEmailErrorMsg] = React.useState<String | null>(null);
@@ -14,10 +17,11 @@ export default function Signup() {
     const [isregistered , setIsregistered] = React.useState<Boolean>(false)
 
 
-  const signUp = (e: React.FormEvent<HTMLFormElement>) => {
+  const signUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // remove any preset error
+    setNameErrorMsg(null)
     setEmailErrorMsg(null);
     setpassErrorMsg(null);
     setconfirmPassErrorMsg(null);
@@ -31,12 +35,21 @@ export default function Signup() {
       if (password != confirmPassword) {
         setpassErrorMsg("passwords do not match");
         setconfirmPassErrorMsg("passwords do not match");
-        return;
+        return;  
       }
       // make register api call here
+      try {
+        const data = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/signup` , {name , email , password , confirmPassword})
+        setIsregistered(true)
+      } catch (error) {
+        if(error instanceof AxiosError){
+          setEmailErrorMsg(error.response?.data.msg)
+        }else{
+          setNameErrorMsg("something went wrong")
+        }
+      }
 
-      setIsregistered(true)
-    } else if (!name && !email && !password && confirmPassword) {
+    } else if (!name && !email && !password && confirmPassword) { //frontend validations
       setEmailErrorMsg("please enter email");
       setpassErrorMsg("please enter password");
       setconfirmPassErrorMsg("please confirm your password");
