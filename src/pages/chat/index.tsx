@@ -10,6 +10,8 @@ import { ChatWindowContext } from "context/chatWinContext";
 
 //types
 import { contact } from "utils/types";
+import CreateRoomModal from "components/chatHome/createRoomModal";
+import { roomContext } from "context/createRoomContext";
 export type chatWindowDetails = {
   contact: contact;
   message: [];
@@ -18,6 +20,7 @@ export type chatWindowDetails = {
 export default function ChatHome() {
   const [isChatsLogOpen, setChatsLog] = React.useState<boolean>(true);
   const { isChatWindowOpen } = React.useContext(ChatWindowContext);
+  const {iscreateRoomModal} = React.useContext(roomContext)
 
   return (
     <div className="flex justify-center items-center bg-gray-200 background-gradient ">
@@ -28,6 +31,8 @@ export default function ChatHome() {
       </div>
 
       {isChatWindowOpen && <ChatBox />}
+
+      {iscreateRoomModal && <CreateRoomModal />}
     </div>
   );
 }

@@ -1,1 +1,1 @@
-export type contact = { name: string; email: string };
+export type contact = { name: string; email: string , id : string};

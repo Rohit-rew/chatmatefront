@@ -9,11 +9,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useCookies } from "react-cookie";
 import Router from "next/router";
+import { roomContext } from "context/createRoomContext";
 
 export default function Menu() {
   const [isMenueOpen, setIsMenueOpen] = React.useState<boolean>(false);
 
   const [cookies, setCookies] = useCookies(["chatmate"]);
+
+  const {setCreateRoomModal} = React.useContext(roomContext)
 
   const handleClick = () => {
     // detete the existing cookies and send to home route
@@ -40,7 +43,7 @@ export default function Menu() {
           >
             Logout
           </button>
-          <button className="p-2 px-2 hover:bg-gray-200 w-40">
+          <button onClick={()=>setCreateRoomModal(true)} className="p-2 px-2 hover:bg-gray-200 w-40">
             Create Room
           </button>
         </div>

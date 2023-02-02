@@ -12,6 +12,7 @@ import AddContactForm from "./addContactForm";
 //axiso
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { fetchContacts } from "utils/utils";
 
 //types
 type contact = {
@@ -27,18 +28,7 @@ export default function ContactLogs() {
 
   React.useEffect(() => {
     if (!cookies.chatmate) return;
-    const fetchContacts = async () => {
-      try {
-        const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
-          { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
-        );
-        setContacts(data.data.contacts);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchContacts();
+    fetchContacts(cookies.chatmate , setContacts);
   });
 
   const deleteContact = async (id: string) => {
