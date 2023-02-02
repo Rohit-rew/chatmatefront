@@ -33,13 +33,13 @@ type propTypes = {
 
 export default function ChatWinContext({ children }: propTypes) {
   const [isChatWindowOpen, setChatWindowOpen] = React.useState<boolean>(false);
-  const [currChatWinDetails, setCurrChatWinDetails] =
-    React.useState<chatWinDetails>();
+  const [currChatWinDetails, setCurrChatWinDetails] = React.useState<chatWinDetails | undefined>(undefined);
+  
 
   return (
     <Provider
       value={{
-        isChatWindowOpen,
+        isChatWindowOpen, 
         setChatWindowOpen,
         currChatWinDetails,
         setCurrChatWinDetails,

@@ -17,13 +17,6 @@ export type chatWindowDetails = {
 
 export default function ChatHome() {
   const [isChatsLogOpen, setChatsLog] = React.useState<boolean>(true);
-
-  const [chatWindowDetails, setChatWindowDetails] =
-    React.useState<chatWindowDetails>({
-      contact: { name: "Pankaj", email: "pankaj@gmail.com" },
-      message: [],
-    });
-
   const { isChatWindowOpen } = React.useContext(ChatWindowContext);
 
   return (

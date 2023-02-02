@@ -14,7 +14,6 @@ type propTypes = {
 };
 
 export default function ChatCard({ chat }: propTypes) {
-
   const {setChatWindowOpen , setCurrChatWinDetails} = React.useContext(ChatWindowContext)
 
 
@@ -37,7 +36,7 @@ export default function ChatCard({ chat }: propTypes) {
         />
         <div className="flex flex-col">
           <p className="text-lg">{chat.contact.name}</p>
-          <p className="text-gray-400 text-sm"> {chat.messages[chat.messages.length-1].msg}</p>
+          <p className="text-gray-400 text-sm"> {chat.messages[chat.messages.length-1]?.msg}</p>
         </div>
       </div>
 
