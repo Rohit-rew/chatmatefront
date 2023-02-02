@@ -14,7 +14,7 @@ export type chatType = {
 };
 
 export default function ChatLogs() {
-  const chatLogs: chatType[] = [
+  const chatLogs: chatType[] = [ // need to fix this
     {
       contact: { name: "Mohit Kumar", email: "mohit.rew@gmail.com" },
       messages: [
