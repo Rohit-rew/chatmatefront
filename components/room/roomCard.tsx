@@ -17,7 +17,7 @@ export default function RoomCard({ room }: propType) {
   return (
     <div
       onClick={handleClick}
-      className="w-full flex p-2  border items-center justify-between"
+      className="w-full flex p-2  border items-center justify-between hover:cursor-pointer"
     >
       <div className="flex gap-4">
         <Image

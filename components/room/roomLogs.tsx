@@ -5,8 +5,7 @@ import RoomCard from "./roomCard";
 import RoomChatBox from "./roomChatBox";
 
 export default function RoomLogs() {
-
-    const {isChatBoxOpen} = React.useContext(roomContext)
+  const { isChatBoxOpen } = React.useContext(roomContext);
 
   const rooms = [
     {
