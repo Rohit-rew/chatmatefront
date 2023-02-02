@@ -8,18 +8,19 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { ChatWindowContext } from "context/chatWinContext";
 
 
-import { chatType } from "./chatLogs";
+// import { chatType } from "./chatLogs";
+import { contact } from "utils/types";
 type propTypes = {
-  chat: chatType
+  contact : contact
 };
 
-export default function ChatCard({ chat }: propTypes) {
+export default function ChatCard({ contact }: propTypes) {
   const {setChatWindowOpen , setCurrChatWinDetails} = React.useContext(ChatWindowContext)
 
 
   const handleClick= ()=>{
     setChatWindowOpen(true)
-    setCurrChatWinDetails({contact : chat.contact , messages : chat.messages})
+    setCurrChatWinDetails({contact : contact})
   }
 
   return (
@@ -35,8 +36,8 @@ export default function ChatCard({ chat }: propTypes) {
           height={50} 
         />
         <div className="flex flex-col">
-          <p className="text-lg">{chat.contact.name}</p>
-          <p className="text-gray-400 text-sm"> {chat.messages[chat.messages.length-1]?.msg}</p>
+          <p className="text-lg">{contact.name}</p>
+          {/* <p className="text-gray-400 text-sm"> {chat.messages[chat.messages.length-1]?.msg}</p> */}
         </div>
       </div>
 

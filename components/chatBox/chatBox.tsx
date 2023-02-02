@@ -21,16 +21,18 @@ export default function ChatBox() {
   const { currentUser } = React.useContext(currentUserInfoContext);
   const [cookies, setCookies] = useCookies(["chatmate"]);
 
-  const [messages , setMesages] = React.useState<message[] | undefined>(()=>{
-    const msgFromLocal = localStorage.getItem(
-      `${process.env.NEXT_PUBLIC_PREFIX}${currChatWinDetails?.contact.email}`
-    );
-    if(msgFromLocal){
-      return JSON.parse(msgFromLocal!)
-    }else{
-      return []
+  const [messages, setMesages] = React.useState<message[] | undefined>(() => {
+    if (typeof window !== undefined) {
+      const msgFromLocal = localStorage.getItem(
+        `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`
+      );
+      if (msgFromLocal) {
+        return JSON.parse(msgFromLocal!);
+      } else {
+        return [];
+      }
     }
-  })
+  });
 
   const sendMessage = () => {
     socket.emit(`one-on-one`, {
@@ -57,32 +59,25 @@ export default function ChatBox() {
     connectSocket();
 
     socket.on(`${currentUser?.email}`, (payload) => {
-      console.log(payload);
-      setCurrChatWinDetails((preval: any) => {
-        return { ...preval, messages: [...preval.messages, payload] };
-      });
-
       // writing to local storage
       if (typeof window !== undefined) {
         const messages = localStorage.getItem(
-          `${process.env.NEXT_PUBLIC_PREFIX}${currChatWinDetails?.contact.email}`
+          `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`
         );
         if (messages) {
           const parsedMessages = JSON.parse(messages);
-          setMesages([...parsedMessages , payload])
+          setMesages([...parsedMessages, payload]);
           localStorage.setItem(
-            `${process.env.NEXT_PUBLIC_PREFIX}${currChatWinDetails?.contact.email}`,
+            `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`,
             JSON.stringify([...parsedMessages, payload])
           );
         } else {
           localStorage.setItem(
-            `${process.env.NEXT_PUBLIC_PREFIX}${currChatWinDetails?.contact.email}`,
+            `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`,
             JSON.stringify([payload])
           );
-          setMesages([payload])
+          setMesages([payload]);
         }
-        
-
       }
     });
 

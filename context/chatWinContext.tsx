@@ -20,7 +20,6 @@ import { message } from "components/chatHome/chatLogs";
 import { contact } from "utils/types";
 type chatWinDetails = {
   contact: contact;
-  messages: message[];
 };
 
 const ChatWindowContext = React.createContext<chatWinContext>(defaultValue);

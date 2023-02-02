@@ -5,6 +5,8 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import { ChatWindowContext } from "context/chatWinContext";
 import { chatType } from "./chatLogs";
+import { currentUserInfoContext } from "context/currentUserContext";
+import { contact } from "utils/types";
 
 //types
 type propTypes = {
@@ -16,9 +18,30 @@ export default function Contact({ contact, deleteContact }: propTypes) {
   const { setChatWindowOpen, setCurrChatWinDetails } =
     React.useContext(ChatWindowContext);
 
+  const {currentUser} = React.useContext(currentUserInfoContext)
+
   const clickHandler = () => {
     setChatWindowOpen(true);
-    setCurrChatWinDetails({ contact: contact, messages: [] });
+    setCurrChatWinDetails({ contact: contact});
+
+    // save chat log tolocal storage
+    if(typeof window !== "undefined"){
+      const chatLogs = localStorage.getItem(`${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}CL`)
+      if(chatLogs){
+        const parsedChatLogs = JSON.parse(chatLogs)
+        const existingChatLog = parsedChatLogs.filter((con : contact) =>{
+            return con.email == contact.email
+        })
+        if(existingChatLog.length > 0){
+          return ;
+        }else{
+          localStorage.setItem(`${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}CL` , JSON.stringify([...parsedChatLogs ,contact]))
+        }
+
+      }else{
+        localStorage.setItem(`${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}CL` , JSON.stringify([contact]))
+      }
+    }
   };
 
   return (
@@ -32,7 +55,7 @@ export default function Contact({ contact, deleteContact }: propTypes) {
           src={"/userimage.png"}
           alt=""
           width={50}
-          height={50}
+          height={50} 
         />
         <div className="flex flex-col">
           <p className="text-lg">{contact.name}</p>
