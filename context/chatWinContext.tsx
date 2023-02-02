@@ -32,7 +32,7 @@ type propTypes = {
 
 export default function ChatWinContext({ children }: propTypes) {
   const [isChatWindowOpen, setChatWindowOpen] = React.useState<boolean>(false);
-  const [currChatWinDetails, setCurrChatWinDetails] = React.useState<chatWinDetails | undefined>(undefined);
+  const [currChatWinDetails, setCurrChatWinDetails] = React.useState<chatWinDetails>();
   
 
   return (

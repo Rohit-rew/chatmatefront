@@ -16,7 +16,7 @@ let socket: Socket;
 
 export default function ChatBox() {
   const [message, setMessage] = React.useState("");
-  const { currChatWinDetails, setCurrChatWinDetails } =
+  const { currChatWinDetails, setCurrChatWinDetails , setChatWindowOpen } =
     React.useContext(ChatWindowContext);
   const { currentUser } = React.useContext(currentUserInfoContext);
   const [cookies, setCookies] = useCookies(["chatmate"]);
@@ -89,7 +89,7 @@ export default function ChatBox() {
 
   return (
     <div className="chat w-full bg-white flex flex-col shadow rounded flex flex-col justify-between max-w-xl absolute top-0 h-screen">
-      <ChatHeader />
+      <ChatHeader name={currChatWinDetails!.contact.name} idOrEmail={currChatWinDetails!.contact.email} closeChatWIndow={setChatWindowOpen}/>
 
       <div className="p-4 overflow-scroll flex flex-col gap-2 pt-24 pb-24 chat-background h-screen justify-end">
         {messages?.map((msg) => {

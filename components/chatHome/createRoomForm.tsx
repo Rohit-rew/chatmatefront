@@ -9,9 +9,10 @@ type propTypes = {
     contacts : contact[]
     selectContact : (e : React.ChangeEvent<HTMLInputElement>)=>void
     createRoom : (e : React.FormEvent<HTMLFormElement>)=>void
+    error : string
 }
 
-export default function CreateRoomForm({contacts , selectContact , createRoom} : propTypes) {
+export default function CreateRoomForm({contacts , selectContact , createRoom , error} : propTypes) {
 
     const {setCreateRoomModal} = React.useContext(roomContext)
 
@@ -30,7 +31,7 @@ export default function CreateRoomForm({contacts , selectContact , createRoom} :
     <div className="flex flex-col">
       <label className="text-xl">Room Name</label>
       <input
-        id="username"
+        id="roomname"
         className="border border-gray-400 rounded h-10 px-2"
         type={"text"}
       />
@@ -50,6 +51,8 @@ export default function CreateRoomForm({contacts , selectContact , createRoom} :
       })}
 
     </div>
+
+    {error && <p className='text-xs text-red-400'>{error}</p>}
       
       <button type='submit' className="text-white bg-green-500  py-1 rounded text-xl">Create</button>
 

@@ -33,21 +33,6 @@ export default function ChatLogs() {
     }  
   });
 
-  // const chatLogs: chatType[] = [
-  // // need to fix this
-  // {
-  //   contact: { name: "Mohit Kumar", email: "mohit.rew@gmail.com" },
-  //   messages: [
-  //     {
-  //       msg: "hellow how are you",
-  //       sender: { email: "asdasd@asdasd.asd", id: "asdasd", name: "pakiya" },
-  //       sentTo: "email@email.com",
-  //       time: Date.now(),
-  //     },
-  //   ],
-  // },
-
-  // ];
 
   return (
     <div className="flex flex-col pt-16">

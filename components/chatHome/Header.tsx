@@ -6,16 +6,16 @@ import UserInfo from "components/chatHome/UserInfo";
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMessage, faContactBook } from "@fortawesome/free-solid-svg-icons";
+import { faMessage, faContactBook , faRestroom } from "@fortawesome/free-solid-svg-icons";
 
 type propTypes = {
-  setChatsLog: React.Dispatch<React.SetStateAction<boolean>>;
-  isChatsLogOpen: boolean;
+  setView: React.Dispatch<React.SetStateAction<string>>;
+  view: string;
 };
 
 export default function Header({
-  isChatsLogOpen,
-  setChatsLog,
+  view,
+  setView,
 }: propTypes) {
   return (
     <header className="w-full bg-blue-500 fixed top-0  max-w-xl gap-1 shadow flex flex-col">
@@ -26,15 +26,22 @@ export default function Header({
 
       <div className="bg-blue-500 w-full h-12 flex justify-between border-t border-black">
         <button
-          onClick={() => setChatsLog(true)}
-          className={`w-2/4 text-white border-r flex items-center justify-center gap-2 ${isChatsLogOpen ? "shadow-inner bg-blue-400" : "" } `}
+          onClick={() => setView("chats")}
+          className={`w-2/4 text-white border-r flex items-center justify-center gap-2 ${Boolean(view == "chats") ? "shadow-inner bg-blue-400" : "" } `}
         >
           {" "}
           <FontAwesomeIcon icon={faMessage} /> Chats
         </button>
         <button
-          onClick={() => setChatsLog(false)}
-          className={`w-2/4 text-white flex items-center justify-center gap-2 shadow ${!isChatsLogOpen ? "shadow-inner bg-blue-400" : "" }`}
+          onClick={() => setView("rooms")}
+          className={`w-2/4 text-white border-r flex items-center justify-center gap-2 ${Boolean(view == "rooms") ? "shadow-inner bg-blue-400" : "" } `}
+        >
+          {" "}
+          <FontAwesomeIcon icon={faRestroom} /> Rooms
+        </button>
+        <button
+          onClick={() => setView("contacts")}
+          className={`w-2/4 text-white flex items-center justify-center gap-2 shadow ${Boolean(view == "contacts") ? "shadow-inner bg-blue-400" : "" }`}
         >
           {" "}
           <FontAwesomeIcon icon={faContactBook} />
