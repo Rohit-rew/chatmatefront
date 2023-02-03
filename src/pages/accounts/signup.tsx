@@ -65,7 +65,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="background-gradient min-h-screen bg-green-500 p-5 flex flex-col justify-center items-center gap-10 sm:justify-around">
+    <div className="welcome-background-gradient min-h-screen bg-green-500 p-5 flex flex-col justify-center items-center gap-10 sm:justify-around">
       <h1 className="text-center text-5xl font-semibold leading-20">
         User SignUp
       </h1>

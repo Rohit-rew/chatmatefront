@@ -2,9 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Router from "next/router";
 
+
 export default function WelcomeView() {
   return (
-    <div className="welcome-background-gradient h-screen bg-green-500 p-10 flex flex-col justify-start items-center gap-32 sm:justify-center">
+    <div className="welcome-background-gradient h-screen bg-green-500 p-5 flex flex-col justify-start items-center gap-32 sm:justify-center">
       <div className="flex flex-col justify-center items-center gap-4">
         <h1 className="text-center text-6xl font-semibold leading-20">
           Welcome to

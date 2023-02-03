@@ -16,7 +16,7 @@ export default function LoginForm({login , emailErrorMsg , passErrorMsg} : propT
   return (
     <form
         onSubmit={(e) => login(e)}
-        className="w-full max-w-md bg-white rounded-xl shadow p-5 flex flex-col justify-between gap-3 "
+        className=" w-full max-w-md bg-white rounded-xl shadow p-5 flex flex-col justify-between gap-3 "
       >
         <div className="flex flex-col gap-2 h-28">
           <label className="text-xl">Email</label>

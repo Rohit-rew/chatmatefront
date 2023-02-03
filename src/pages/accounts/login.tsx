@@ -57,7 +57,7 @@ export default function Login() {
   };
 
   return (
-    <div className="background-gradient h-screen bg-green-500 p-5 flex flex-col justify-start items-center gap-32 sm:justify-center">
+    <div className="welcome-background-gradient h-screen bg-green-500 p-5 flex flex-col justify-start items-center gap-32 sm:justify-center">
       <h1 className="text-center text-5xl font-semibold leading-20">
         User Login
       </h1>
