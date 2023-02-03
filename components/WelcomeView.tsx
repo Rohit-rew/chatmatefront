@@ -7,15 +7,15 @@ export default function WelcomeView() {
   return (
     <div className="welcome-background-gradient h-screen bg-green-500 p-5 flex flex-col justify-start items-center gap-32 sm:justify-center">
       <div className="flex flex-col justify-center items-center gap-4">
-        <h1 className="text-center text-6xl font-semibold leading-20">
+        <h1 className="text-center text-5xl font-semibold leading-20">
           Welcome to
         </h1>
         <Image
           className="place-center"
           src={"/mainimage.png"}
           alt="logoimage"
-          width={275}
-          height={275}
+          width={250}
+          height={250}
         />
       </div>
 
