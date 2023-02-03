@@ -1,6 +1,10 @@
 import React from "react";
 // cookies
 import { useCookies } from "react-cookie";
+import axios from "axios";
+
+//utils
+import { saveMsgToLocalStorage } from "utils/utils";
 
 // components
 import Header from "components/chatHome/Header";
@@ -13,7 +17,9 @@ import RoomLogs from "components/room/roomLogs";
 //contexts
 import { ChatWindowContext } from "context/chatWinContext";
 import { roomContext } from "context/createRoomContext";
-import { currentUserInfoContext } from "context/currentUserContext";
+import { currentUserInfoContext, userInfo } from "context/currentUserContext";
+import { RequestContext } from "next/dist/server/base-server";
+
 
 //types
 import { contact } from "utils/types";
@@ -21,51 +27,49 @@ export type chatWindowDetails = {
   contact: contact;
   message: [];
 };
+type propTypes = {
+  currentUserInfo: userInfo;
+};
+export type msgPacket = {
+  msg: string
+  sentTo: string
+  sender: userInfo;
+  time: Date;
+};
 
 //socket
 import { SocketCon } from "utils/socketConnection";
 import { Socket } from "socket.io-client";
-export let socket : Socket ;
+export let socket: Socket;
 
-export default function ChatHome() {
+export default function ChatHome({ currentUserInfo }: propTypes) {
   const [view, setView] = React.useState<string>("chats");
   const { isChatWindowOpen } = React.useContext(ChatWindowContext);
-  const {iscreateRoomModal} = React.useContext(roomContext)
+  const { iscreateRoomModal } = React.useContext(roomContext);
   const [cookies, setCookies] = useCookies(["chatmate"]);
-  const {currentUser} = React.useContext(currentUserInfoContext)
-
+  const { setCurrentUser } = React.useContext(currentUserInfoContext);
+  const [render, makeRender] = React.useState<number>(12323);
 
   React.useEffect(() => {
-    if(!cookies.chatmate) return
-    const socketInstace = new SocketCon(cookies.chatmate)
-    socket = socketInstace.socket
+    setCurrentUser(currentUserInfo);
+    const token = cookies.chatmate;
+    if (!token) return;
 
-    socket.on(`${currentUser?.email}`, (payload) => {
-      console.log(payload)
-      // writing to local storage
-      
-      // if (typeof window !== undefined) {
-      //   const messages = localStorage.getItem(
-      //     `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`
-      //   );
-      //   if (messages) {
-      //     const parsedMessages = JSON.parse(messages);
-      //     localStorage.setItem(
-      //       `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`,
-      //       JSON.stringify([...parsedMessages, payload])
-      //     );
-      //   } else {
-      //     localStorage.setItem(
-      //       `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`,
-      //       JSON.stringify([payload])
-      //     );
-      //   }
-      // }
+    const socketInstace = new SocketCon(token);
+    socket = socketInstace.socket;
+    socket.on("connect", () => {
+      console.log("connected");
     });
 
-    return () => {
-      socket.off(`${currentUser?.email}`).off();
+    socket.on(`${currentUserInfo.email}`, (payload : msgPacket) => {
+      console.log(payload);
+      saveMsgToLocalStorage(currentUserInfo , payload)
+      makeRender(Math.random());
+    });
+
+    return () => { // clean up func
       socket.off(`connect`).off();
+      socket.off(`${currentUserInfo.email}`).off();
     };
   }, [0]);
 
@@ -74,12 +78,39 @@ export default function ChatHome() {
       <div className=" Contacts w-full h-screen bg-white flex flex-col gap-2 overflow-scroll pt-20 max-w-xl">
         <Header setView={setView} view={view} />
         {Boolean(view == "chats") && <ChatLogs />}
-        {Boolean(view == "rooms") && <RoomLogs/>}
+        {Boolean(view == "rooms") && <RoomLogs />}
         {Boolean(view == "contacts") && <ContactLogs />}
       </div>
 
-      {isChatWindowOpen && <ChatBox />}
+      {isChatWindowOpen && <ChatBox render={render} />}
       {iscreateRoomModal && <CreateRoomModal />}
     </div>
   );
+}
+
+
+
+
+
+
+export async function getServerSideProps(req: RequestContext, res: Response) {
+  const cookies = req.req.cookies;
+  const token = cookies.chatmate;
+  let currentUserInfo;
+  if (!token) return;
+  try {
+    const data = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    currentUserInfo = data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return {
+    props: {
+      currentUserInfo: currentUserInfo || null,
+    },
+  };
 }

@@ -15,32 +15,40 @@ import { message } from "components/chatHome/chatLogs";
 //socket
 import { socket } from "@/pages/chat";
 
-export default function ChatBox() {
+export default function ChatBox({render} : {render : number}) {
   const [message, setMessage] = React.useState("");
   const { currChatWinDetails, setChatWindowOpen } = React.useContext(ChatWindowContext);
   const { currentUser } = React.useContext(currentUserInfoContext);
-  const [messages, setMesages] = React.useState<message[] | undefined>(() => {
+  const [messages, setMesages] = React.useState<message[] | undefined>();
+
+  const sendMessage = () => {
+    if(!currentUser) {
+      console.log("user not present")
+      console.log(currentUser)
+      return
+    } 
+    console.log("sent")
+    socket.emit(`one-on-one`, {
+      msg: message,
+      sentTo: currChatWinDetails?.contact.email,
+      sender: currentUser, 
+      time: Date.now(),
+    }); 
+    setMessage(""); 
+  };
+
+  React.useEffect(()=>{
     if (typeof window !== undefined) {
       const msgFromLocal = localStorage.getItem(
         `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`
       );
       if (msgFromLocal) {
-        return JSON.parse(msgFromLocal!);
-      } else {
-        return [];
+        setMesages(JSON.parse(msgFromLocal!))
+      } else { 
+        setMesages([])
       }
     }
-  });
-
-  const sendMessage = () => {
-    socket.emit(`one-on-one`, {
-      msg: message,
-      sentTo: currChatWinDetails?.contact.email,
-      sender: currentUser,
-      time: Date.now(),
-    });
-    setMessage("");
-  };
+  } , [render])
   
 
   return (

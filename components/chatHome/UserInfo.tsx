@@ -19,25 +19,6 @@ export default function UserInfo() {
   const [cookie, setCookies] = useCookies(["chatmate"]);
   const {setCurrentUser , currentUser} = React.useContext(currentUserInfoContext)
 
-  React.useEffect(() => {
-    const getUserDataFromCookies = async () => {
-      try {
-        const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/user`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookie.chatmate}`,
-            },
-          }
-        );
-        setCurrentUser(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getUserDataFromCookies();
-  }, [0]);
 
   return (
     <div className="flex gap-2 items-center">

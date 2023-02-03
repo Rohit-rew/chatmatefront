@@ -14,17 +14,13 @@ import { roomContext } from "context/createRoomContext";
 export default function Menu() {
   const [isMenueOpen, setIsMenueOpen] = React.useState<boolean>(false);
 
-  const [cookies, setCookies] = useCookies(["chatmate"]);
+  const [cookies, setCookies , removeCookie] = useCookies(["chatmate"]);
 
   const {setCreateRoomModal} = React.useContext(roomContext)
 
   const handleClick = () => {
     // detete the existing cookies and send to home route
-    setCookies("chatmate", "", {
-      path: "/",
-      sameSite: true,
-      maxAge: 1,
-    });
+    removeCookie("chatmate")
     Router.push("/");
   };
 

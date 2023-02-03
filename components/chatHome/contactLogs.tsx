@@ -37,7 +37,6 @@ export default function ContactLogs() {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/contact/${id}`,
         { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
       );
-      console.log(data);
     } catch (error) {
       console.log(error); //show error to user
     }

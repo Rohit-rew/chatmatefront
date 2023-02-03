@@ -19,20 +19,21 @@ export default function ChatLogs() {
   const { currentUser } = React.useContext(currentUserInfoContext);
 
   // fetching chat logs from local storage
+  const [chatLogs, setChatLogs] = React.useState<contact[]>();
 
-  const [chatLogs, setChatLogs] = React.useState(() => {
+  React.useEffect(() => {
+    console.log("runs")
     if (typeof window !== "undefined") {
       const chatLogFromLocal = localStorage.getItem(
         `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}CL`
       );
       if (chatLogFromLocal) {
-        return JSON.parse(chatLogFromLocal);
-      } else {
-        return [];
+        setChatLogs(JSON.parse(chatLogFromLocal));
+      } else { 
+        setChatLogs([]);
       }
-    }  
-  });
-
+    }
+  } , [0]);
 
   return (
     <div className="flex flex-col pt-16">
