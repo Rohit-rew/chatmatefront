@@ -1,12 +1,9 @@
 import React from 'react'
 import Router from 'next/router'
 
-//types
-type propTypes = {
-    route : any
-}
 
-export default function SuccessSignUpMessage({route}:propTypes) {
+
+export default function SuccessSignUpMessage({route}:{route : string}) {
   return (
     <div className="quizcreateModal absolute w-full h-full  bg-black bg-opacity-80 box-border p-5 flex justify-center items-center">
         <div className="w-full bg-white rounded relative max-w-xl p-5 flex flex-col gap-6 justify-center items-center">

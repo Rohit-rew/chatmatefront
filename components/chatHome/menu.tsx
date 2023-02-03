@@ -1,14 +1,18 @@
 import React from "react";
+import Router from "next/router";
+
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSearch,
   faListDots,
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
+
+//cookies
 import { useCookies } from "react-cookie";
-import Router from "next/router";
+
+//contexts
 import { roomContext } from "context/createRoomContext";
 
 export default function Menu() {

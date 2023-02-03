@@ -4,13 +4,10 @@ import React from "react";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type propTypes = {
-  message : string
-  setmessage : React.Dispatch<React.SetStateAction<string>>
-  sendMessage : ()=>void
-}
+// types
+import { messageInputPropT } from "utils/types";
 
-export default function Msginput({message , setmessage , sendMessage} : propTypes) {
+export default function Msginput({message , setmessage , sendMessage} : messageInputPropT) {
   return (
     <div className="w-full bg-blue-500 flex justify-center items-center px-4 py-2 fixed bottom-0 gap-2 max-w-xl">
       <input 

@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //components
 import Contact from "./contact";
-import AddContactForm from "./addContactForm";
+import AddContactModal from "./addContactModal";
+
 
 //axiso
 import axios from "axios";
@@ -15,15 +16,12 @@ import { useCookies } from "react-cookie";
 import { fetchContacts } from "utils/utils";
 
 //types
-type contact = {
-  name: string;
-  email: string;
-  id: string;
-};
+import { contactT } from "utils/types";
+
 
 export default function ContactLogs() {
   const [isAddContactModal, setAddContactModal] = React.useState(false);
-  const [contacts, setContacts] = React.useState<contact[]>([]);
+  const [contacts, setContacts] = React.useState<contactT[]>([]);
   const [cookies, setCookies] = useCookies(["chatmate"]);
 
   React.useEffect(() => {
@@ -69,45 +67,5 @@ export default function ContactLogs() {
   );
 }
 
-//types
-type propTypes = {
-  closeModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
-export function AddContactModal({ closeModal }: propTypes) {
-  const [errorMsg, setErrorMsg] = React.useState("");
-  const [cookies, setCookies] = useCookies(["chatmate"]);
 
-  const createContact = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrorMsg("");
-
-    const name = e.currentTarget.username.value;
-    const email = e.currentTarget.email.value;
-
-    if (name && email) {
-      try {
-        const data = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
-          { name, email },
-          { headers: { Authorization: `Bearer ${cookies.chatmate}` } }
-        );
-        closeModal(false);
-      } catch (error) {
-        console.log(error); //show error to user
-      }
-    } else {
-      setErrorMsg("both fields are necessary");
-    }
-  };
-
-  return (
-    <div className="absolute w-full max-w-xl h-screen bg-black bg-opacity-80 top-0 p-4 flex justify-center items-center ">
-      <AddContactForm
-        errorMsg={errorMsg}
-        createContact={createContact}
-        closeModal={closeModal}
-      />
-    </div>
-  );
-}

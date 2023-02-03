@@ -10,7 +10,7 @@ import { ChatWindowContext } from "context/chatWinContext";
 import { currentUserInfoContext } from "context/currentUserContext";
 
 // types
-import { message } from "components/chatHome/chatLogs";
+import { msgPacketT } from "utils/types";
 
 //socket
 import { socket } from "@/pages/chat";
@@ -19,15 +19,10 @@ export default function ChatBox({render} : {render : number}) {
   const [message, setMessage] = React.useState("");
   const { currChatWinDetails, setChatWindowOpen } = React.useContext(ChatWindowContext);
   const { currentUser } = React.useContext(currentUserInfoContext);
-  const [messages, setMesages] = React.useState<message[] | undefined>();
+  const [messages, setMesages] = React.useState<msgPacketT[] | undefined>();
 
   const sendMessage = () => {
-    if(!currentUser) {
-      console.log("user not present")
-      console.log(currentUser)
-      return
-    } 
-    console.log("sent")
+    if(!currentUser) return
     socket.emit(`one-on-one`, {
       msg: message,
       sentTo: currChatWinDetails?.contact.email,
@@ -40,7 +35,7 @@ export default function ChatBox({render} : {render : number}) {
   React.useEffect(()=>{
     if (typeof window !== undefined) {
       const msgFromLocal = localStorage.getItem(
-        `${process.env.NEXT_PUBLIC_PREFIX}${currentUser?.id}${currChatWinDetails?.contact.email}`
+        `${process.env.NEXT_PUBLIC_PREFIX}${currentUser!.id}${currChatWinDetails?.contact.email}`
       );
       if (msgFromLocal) {
         setMesages(JSON.parse(msgFromLocal!))
@@ -57,7 +52,7 @@ export default function ChatBox({render} : {render : number}) {
 
       <div className="p-4 overflow-scroll flex flex-col gap-2 pt-24 pb-24 chat-background h-screen justify-end">
         {messages?.map((msg) => {
-          return <Message message={msg} currentUserId={currentUser?.id} />;
+          return <Message message={msg} currentUserId={currentUser!.id} />;
         })}
       </div>
 

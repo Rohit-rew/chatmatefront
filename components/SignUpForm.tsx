@@ -1,17 +1,9 @@
 import React from 'react'
 
-type signUpFunc = (e:React.FormEvent<HTMLFormElement> )=>void
-type errorMsg = String | null
+// types
+import { signUpFormT } from 'utils/types'
 
-type propType = {
-  signUp : signUpFunc,
-  nameErrorMsg : errorMsg
-  emailErrorMsg : errorMsg,
-  passErrorMsg : errorMsg,
-  confirmPassErrorMsg : errorMsg
-}
-
-export default function SignUpForm({signUp ,nameErrorMsg , emailErrorMsg , passErrorMsg , confirmPassErrorMsg} : propType) {
+export default function SignUpForm({signUp ,nameErrorMsg , emailErrorMsg , passErrorMsg , confirmPassErrorMsg} : signUpFormT) {
 
   return (
    <form

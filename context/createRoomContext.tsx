@@ -18,12 +18,11 @@ const defaultValue  ={
     chatBoxDetails : {roomName : "" , id : "" , members : [""] }
 } 
 
+
+// context setup
 const roomContext = React.createContext<roomContext>(defaultValue)
 const {Provider} = roomContext
 
-type propTypes = {
-    children : ReactNode
-}
 
 type chatBoxDetails = {
     roomName : string,
@@ -31,7 +30,7 @@ type chatBoxDetails = {
     members : string[] 
 }
 
-export default function CreateRoomContext({children} : propTypes) {
+export default function CreateRoomContext({children} : {children : ReactNode}) {
     const [iscreateRoomModal , setCreateRoomModal] = React.useState<boolean>(false)
     const [isChatBoxOpen , setChatBox] = React.useState<boolean>(false)
     const [chatBoxDetails , setChatBoxDetails] = React.useState<chatBoxDetails | undefined>(undefined)

@@ -17,36 +17,22 @@ import RoomLogs from "components/room/roomLogs";
 //contexts
 import { ChatWindowContext } from "context/chatWinContext";
 import { roomContext } from "context/createRoomContext";
-import { currentUserInfoContext, userInfo } from "context/currentUserContext";
+import { currentUserInfoContext } from "context/currentUserContext";
 import { RequestContext } from "next/dist/server/base-server";
 
-
 //types
-import { contact } from "utils/types";
-export type chatWindowDetails = {
-  contact: contact;
-  message: [];
-};
-type propTypes = {
-  currentUserInfo: userInfo;
-};
-export type msgPacket = {
-  msg: string
-  sentTo: string
-  sender: userInfo;
-  time: Date;
-};
+import { chathomeT, msgPacketT } from "utils/types";
 
 //socket
 import { SocketCon } from "utils/socketConnection";
 import { Socket } from "socket.io-client";
 export let socket: Socket;
 
-export default function ChatHome({ currentUserInfo }: propTypes) {
+export default function ChatHome({ currentUserInfo }: chathomeT) {
   const [view, setView] = React.useState<string>("chats");
   const { isChatWindowOpen } = React.useContext(ChatWindowContext);
   const { iscreateRoomModal } = React.useContext(roomContext);
-  const [cookies, setCookies] = useCookies(["chatmate"]);
+  const [cookies] = useCookies(["chatmate"]);
   const { setCurrentUser } = React.useContext(currentUserInfoContext);
   const [render, makeRender] = React.useState<number>(12323);
 
@@ -61,13 +47,14 @@ export default function ChatHome({ currentUserInfo }: propTypes) {
       console.log("connected");
     });
 
-    socket.on(`${currentUserInfo.email}`, (payload : msgPacket) => {
+    socket.on(`${currentUserInfo.email}`, (payload: msgPacketT) => {
       console.log(payload);
-      saveMsgToLocalStorage(currentUserInfo , payload)
+      saveMsgToLocalStorage(currentUserInfo, payload);
       makeRender(Math.random());
     });
 
-    return () => { // clean up func
+    return () => {
+      // clean up func
       socket.off(`connect`).off();
       socket.off(`${currentUserInfo.email}`).off();
     };
@@ -87,11 +74,6 @@ export default function ChatHome({ currentUserInfo }: propTypes) {
     </div>
   );
 }
-
-
-
-
-
 
 export async function getServerSideProps(req: RequestContext, res: Response) {
   const cookies = req.req.cookies;

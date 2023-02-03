@@ -1,12 +1,9 @@
-import {  message } from "components/chatHome/chatLogs";
 import React from "react";
 
-type propTypes = {
-    message : message
-    currentUserId : string | undefined
-}
+//types
+import { messagePropT } from "utils/types";
 
-export default function Message({message , currentUserId} : propTypes) {
+export default function Message({message , currentUserId} : messagePropT) {
 
 
   return (

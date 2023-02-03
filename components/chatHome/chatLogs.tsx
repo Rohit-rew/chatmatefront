@@ -1,25 +1,19 @@
-import { currentUserInfoContext } from "context/currentUserContext";
 import React from "react";
-import { contact } from "utils/types";
+
+//components
 import ChatCard from "./chatCard";
 
-export type message = {
-  msg: string;
-  sender: { name: string; email: string; id: string };
-  sentTo: string;
-  time: Date;
-};
+import { currentUserInfoContext } from "context/currentUserContext";
 
-export type chatType = {
-  contact: contact;
-  messages: message[];
-};
+//types
+import { contactT } from "utils/types";
+
 
 export default function ChatLogs() {
   const { currentUser } = React.useContext(currentUserInfoContext);
 
   // fetching chat logs from local storage
-  const [chatLogs, setChatLogs] = React.useState<contact[]>();
+  const [chatLogs, setChatLogs] = React.useState<contactT[]>();
 
   React.useEffect(() => {
     console.log("runs")
@@ -37,7 +31,7 @@ export default function ChatLogs() {
 
   return (
     <div className="flex flex-col pt-16">
-      {chatLogs?.map((chat: contact, i: number) => {
+      {chatLogs?.map((chat: contactT, i: number) => {
         return <ChatCard key={i} contact={chat} />;
       })}
     </div>

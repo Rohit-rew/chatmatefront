@@ -1,23 +1,12 @@
 import Image from "next/image";
 import React from "react";
-import { useCookies } from "react-cookie";
 
-import axios from "axios";
 
 import { currentUserInfoContext } from "context/currentUserContext";
 
 
-
-//types
-type userInfo = {
-  name: string;
-  email: string;
-  id: string;
-};
-
 export default function UserInfo() {
-  const [cookie, setCookies] = useCookies(["chatmate"]);
-  const {setCurrentUser , currentUser} = React.useContext(currentUserInfoContext)
+  const { currentUser} = React.useContext(currentUserInfoContext)
 
 
   return (

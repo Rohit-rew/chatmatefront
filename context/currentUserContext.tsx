@@ -1,42 +1,27 @@
 import axios from "axios";
 import React, { ReactNode } from "react";
 import { useCookies } from "react-cookie";
-import { getUserDataFromCookies } from "utils/utils";
+import { currentUserInfoT, currUserInfoContextT } from "utils/types";
 
 const defaultvalue = {
   currentUser: { name: "", email: "", id: "" },
   setCurrentUser() {},
 };
 
-type currUserInfoContext = {
-  currentUser : userInfo | undefined,
-  setCurrentUser : React.Dispatch<React.SetStateAction<userInfo | undefined>>
-};
-
-export type userInfo = {
-  name: string;
-  email: string;
-  id: string;
-};
-
+//context setup
 const currentUserInfoContext =
-  React.createContext<currUserInfoContext>(defaultvalue);
+  React.createContext<currUserInfoContextT>(defaultvalue);
 const { Provider } = currentUserInfoContext;
 
-//types
-type propTypes = {
-  children: ReactNode;
-};
 
-export default function CurrentUserContext({ children }: propTypes) {
-  const [cookie , setCookies] = useCookies(["chatmate"])
+export default function CurrentUserContext({ child }: { child: ReactNode }) {
+  const [cookie] = useCookies(["chatmate"]);
 
-  const [currentUser, setCurrentUser] = React.useState<userInfo>();
-  console.log(currentUser)
-  React.useEffect(()=>{
+  const [currentUser, setCurrentUser] = React.useState<currentUserInfoT>();
 
-    if(!cookie.chatmate) return
-    const getUserDataFromCookies = async (token : string ) => {
+  React.useEffect(() => {
+    if (!cookie.chatmate) return;
+    const getUserDataFromCookies = async (token: string) => {
       try {
         const data = await axios.get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/user`,
@@ -46,18 +31,16 @@ export default function CurrentUserContext({ children }: propTypes) {
             },
           }
         );
-       console.log("setting current user")
-        setCurrentUser(data.data)
+        console.log("setting current user");
+        setCurrentUser(data.data);
       } catch (error) {
         console.log(error);
       }
     };
-    getUserDataFromCookies(cookie.chatmate)
-  }, [0])
+    getUserDataFromCookies(cookie.chatmate);
+  }, [0]);
 
-  return (
-    <Provider value={{ currentUser, setCurrentUser }}>{children}</Provider>
-  );
+  return <Provider value={{ currentUser, setCurrentUser }}>{child}</Provider>;
 }
 
 export { currentUserInfoContext };

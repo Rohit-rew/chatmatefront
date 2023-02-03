@@ -1,5 +1,8 @@
 import React, { ReactNode } from "react";
 
+// types
+import { chatWinContextT, chatWinDetailsT } from "utils/types";
+
 const defaultValue = {
   isChatWindowOpen: false,
   setChatWindowOpen() {},
@@ -7,32 +10,14 @@ const defaultValue = {
   currChatWinDetails: undefined,
 };
 
-type chatWinContext = {
-  isChatWindowOpen: boolean;
-  setChatWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrChatWinDetails: React.Dispatch<
-    React.SetStateAction<chatWinDetails | undefined>
-  >;
-  currChatWinDetails: chatWinDetails | undefined;
-};
-
-import { message } from "components/chatHome/chatLogs";
-import { contact } from "utils/types";
-type chatWinDetails = {
-  contact: contact;
-};
-
-const ChatWindowContext = React.createContext<chatWinContext>(defaultValue);
+// context setup
+const ChatWindowContext = React.createContext<chatWinContextT>(defaultValue);
 const { Provider } = ChatWindowContext;
 
-//types
-type propTypes = {
-  children: ReactNode;
-};
 
-export default function ChatWinContext({ children }: propTypes) {
+export default function ChatWinContext({ children }: {children : ReactNode}) {
   const [isChatWindowOpen, setChatWindowOpen] = React.useState<boolean>(false);
-  const [currChatWinDetails, setCurrChatWinDetails] = React.useState<chatWinDetails>();
+  const [currChatWinDetails, setCurrChatWinDetails] = React.useState<chatWinDetailsT>();
   
 
   return (

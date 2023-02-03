@@ -5,22 +5,20 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
+//contexts
 import { ChatWindowContext } from "context/chatWinContext";
 
+// types
+import { chatCardPropT } from "utils/types";
 
-// import { chatType } from "./chatLogs";
-import { contact } from "utils/types";
-type propTypes = {
-  contact : contact
-};
 
-export default function ChatCard({ contact }: propTypes) {
+export default function ChatCard({ contact }: chatCardPropT) {
   const {setChatWindowOpen , setCurrChatWinDetails} = React.useContext(ChatWindowContext)
 
 
   const handleClick= ()=>{
     setChatWindowOpen(true)
-    setCurrChatWinDetails({contact : contact})
+    setCurrChatWinDetails({contact})
   }
 
   return (

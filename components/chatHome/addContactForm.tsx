@@ -4,17 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 //types
-type propTypes = {
-  createContact: (e: React.FormEvent<HTMLFormElement>) => void;
-  closeModal: React.Dispatch<React.SetStateAction<boolean>>;
-  errorMsg : string
-};
+import { addContactFormPropT } from "utils/types";
 
 export default function AddContactForm({
   createContact,
   closeModal,
   errorMsg
-}: propTypes) {
+}: addContactFormPropT) {
   return (
     <form
       onSubmit={(e) => createContact(e)}

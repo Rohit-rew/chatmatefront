@@ -1,11 +1,9 @@
-import { msgPacket } from "@/pages/chat";
 import axios from "axios";
-import { userInfo } from "context/currentUserContext";
-import { contact } from "./types";
+import { contactT, currentUserInfoT, msgPacketT } from "./types";
 
 export const fetchContacts = async (
   token: string,
-  setContacts: React.Dispatch<React.SetStateAction<contact[]>>
+  setContacts: React.Dispatch<React.SetStateAction<contactT[]>>
 ) => {
   try {
     const data = await axios.get(
@@ -18,25 +16,23 @@ export const fetchContacts = async (
   }
 };
 
-
-export const getUserDataFromCookies = async (token : string ) => {
+export const getUserDataFromCookies = async (token: string) => {
   try {
-    const data = await axios.get(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return data.data
+    const data = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const saveMsgToLocalStorage =  (currentUserInfo : userInfo
-   , payload : msgPacket)=>{
+export const saveMsgToLocalStorage = (
+  currentUserInfo: currentUserInfoT,
+  payload: msgPacketT
+) => {
   if (typeof window !== undefined) {
     const messages = localStorage.getItem(
       `${process.env.NEXT_PUBLIC_PREFIX}${currentUserInfo.id}${
@@ -66,5 +62,4 @@ export const saveMsgToLocalStorage =  (currentUserInfo : userInfo
       );
     }
   }
-
-}
+};

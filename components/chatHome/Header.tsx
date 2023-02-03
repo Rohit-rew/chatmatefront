@@ -7,16 +7,14 @@ import UserInfo from "components/chatHome/UserInfo";
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage, faContactBook , faRestroom } from "@fortawesome/free-solid-svg-icons";
+import { chatHomeHeaderT } from "utils/types";
 
-type propTypes = {
-  setView: React.Dispatch<React.SetStateAction<string>>;
-  view: string;
-};
+
 
 export default function Header({
   view,
   setView,
-}: propTypes) {
+}: chatHomeHeaderT) {
   return (
     <header className="w-full bg-blue-500 fixed top-0  max-w-xl gap-1 shadow flex flex-col">
       <div className="flex justify-between px-4 py-2">
